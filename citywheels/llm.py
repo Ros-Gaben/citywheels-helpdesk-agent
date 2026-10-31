@@ -8,12 +8,14 @@ from citywheels.agent import ModelReply
 
 DEFAULT_MODEL = "gemini-flash-lite-latest"
 RETRY_CODES = (429, 500, 503)
+MIN_REQUEST_INTERVAL = 4.2
 
 
 class GeminiModel:
     def __init__(self, system_prompt, tool_schemas):
         self.client = genai.Client() 
         self.model_name = os.getenv("LLM_MODEL", DEFAULT_MODEL)
+        self.last_request_time = None
         self.config = types.GenerateContentConfig(
             system_instruction=system_prompt,
             tools=[types.Tool(function_declarations=tool_schemas)],
@@ -51,6 +53,13 @@ class GeminiModel:
  
     def _call_api(self, history):
         for attempt in range(3):
+            if self.last_request_time is not None:
+                elapsed = time.monotonic() - self.last_request_time
+                wait = MIN_REQUEST_INTERVAL - elapsed
+                if wait > 0:
+                    time.sleep(wait)
+
+            self.last_request_time = time.monotonic()
             try:
                 return self.client.models.generate_content(
                     model=self.model_name, contents=history, config=self.config
