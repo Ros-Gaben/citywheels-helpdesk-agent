@@ -11,7 +11,7 @@ class ModelReply:
         self.tool_calls = tool_calls or []
         self.raw = raw
 
-def answer(model, history, user_text):
+def answer(model, history, user_text, tool_log = None):
     history.append(model.user_message(user_text))
 
     for step in range(MAX_STEPS):
@@ -25,6 +25,8 @@ def answer(model, history, user_text):
         for call in reply.tool_calls:
             result = run_tool(call["name"], call["args"])
             results.append((call["name"], result))
+            if tool_log != None:
+                tool_log.append({"name": call["name"], "args": call["args"], "result": result})
         history.append(model.tool_results_message(results))
     
     return FALLBACK_REPLY
