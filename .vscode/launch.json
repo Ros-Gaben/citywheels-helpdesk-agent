@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CityWheels CLI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "citywheels.cli",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}
