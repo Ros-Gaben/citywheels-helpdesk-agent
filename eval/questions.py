@@ -61,7 +61,7 @@ QUESTIONS = [
         "question": "Cancel booking CW-9999 please.",
         "expect_tool": ["get_booking", "calculate_refund"],
         "contains_any": ["not found", "couldn't find", "could not find", "can't find", "cannot find",
-                         "no booking", "doesn't exist", "does not exist", "staff"],
+                         "no booking", "doesn't exist", "does not exist"],
     },
 
     {

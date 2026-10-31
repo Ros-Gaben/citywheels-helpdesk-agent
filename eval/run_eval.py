@@ -59,8 +59,8 @@ def write_results(model_name, rows, path=RESULTS_PATH):
  
     lines = []
     if not Path(path).exists():
-        lines.append("#Eval results\n")
-    lines.append(f"##Model: {model_name}, run {datetime.now():%Y-%m-%d %H:%M}\n")
+        lines.append("# Eval results\n")
+    lines.append(f"## Model: {model_name}, run {datetime.now():%Y-%m-%d %H:%M}\n")
     lines.append(f"**Passed: {passed} of {len(rows)}**\n")
     lines.append("| # | Question | Kind | Result | Tools called | Seconds |")
     lines.append("| --- | --- | --- | --- | --- | --- |")
